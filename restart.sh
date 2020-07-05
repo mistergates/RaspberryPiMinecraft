@@ -41,5 +41,8 @@ while [ $StopChecks -lt 30 ]; do
   StopChecks=$((StopChecks+1))
 done
 
-echo "Restarting now."
-sudo reboot
+echo "Backing up server..."
+bash dirname/minecraft/backup.sh
+
+echo "Restarting now..."
+sudo reboot now

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Minecraft Server Installation Script - James A. Chambers - https://www.jamesachambers.com
 # More information at https://jamesachambers.com/raspberry-pi-minecraft-server-script-with-startup-service/
-# GitHub Repository: https://github.com/TheRemote/RaspberryPiMinecraft
+# GitHub Repository: https://github.com/mistergates/RaspberryPiMinecraft
 
 # Minecraft server version
 Version="1.16.1"
@@ -85,11 +85,11 @@ Get_ServerMemory() {
 # Updates all scripts
 Update_Scripts() {
   # Remove existing scripts
-  rm minecraft/start.sh minecraft/stop.sh minecraft/restart.sh
+  rm minecraft/start.sh minecraft/stop.sh minecraft/restart.sh minecraft/backup.sh
 
   # Download start.sh from repository
   Print_Style "Grabbing start.sh from repository..." "$YELLOW"
-  wget -O start.sh https://raw.githubusercontent.com/TheRemote/RaspberryPiMinecraft/master/start.sh
+  wget -O start.sh https://raw.githubusercontent.com/mistergates/RaspberryPiMinecraft/master/start.sh
   chmod +x start.sh
   sed -i "s:dirname:$DirName:g" start.sh
   sed -i "s:memselect:$MemSelected:g" start.sh
@@ -97,20 +97,26 @@ Update_Scripts() {
 
   # Download stop.sh from repository
   echo "Grabbing stop.sh from repository..."
-  wget -O stop.sh https://raw.githubusercontent.com/TheRemote/RaspberryPiMinecraft/master/stop.sh
+  wget -O stop.sh https://raw.githubusercontent.com/mistergates/RaspberryPiMinecraft/master/stop.sh
   chmod +x stop.sh
   sed -i "s:dirname:$DirName:g" stop.sh
 
   # Download restart.sh from repository
   echo "Grabbing restart.sh from repository..."
-  wget -O restart.sh https://raw.githubusercontent.com/TheRemote/RaspberryPiMinecraft/master/restart.sh
+  wget -O restart.sh https://raw.githubusercontent.com/mistergates/RaspberryPiMinecraft/master/restart.sh
+  chmod +x restart.sh
+  sed -i "s:dirname:$DirName:g" restart.sh
+
+  # Download backup.sh from repository
+  echo "Grabbing backup.sh from repository..."
+  wget -O restart.sh https://raw.githubusercontent.com/mistergates/RaspberryPiMinecraft/master/backup.sh
   chmod +x restart.sh
   sed -i "s:dirname:$DirName:g" restart.sh
 }
 
 # Updates Minecraft service
 Update_Service() {
-  sudo wget -O /etc/systemd/system/minecraft.service https://raw.githubusercontent.com/TheRemote/RaspberryPiMinecraft/master/minecraft.service
+  sudo wget -O /etc/systemd/system/minecraft.service https://raw.githubusercontent.com/mistergates/RaspberryPiMinecraft/master/minecraft.service
   sudo chmod +x /etc/systemd/system/minecraft.service
   sudo sed -i "s/replace/$UserName/g" /etc/systemd/system/minecraft.service
   sudo sed -i "s:dirname:$DirName:g" /etc/systemd/system/minecraft.service
@@ -197,7 +203,7 @@ Install_Java() {
 
 Print_Style "Minecraft Server installation script by James Chambers - July 4th 2020" "$MAGENTA"
 Print_Style "Version $Version will be installed.  To change this, open SetupMinecraft.sh and change the \"Version\" variable to the version you want to install." "$MAGENTA"
-Print_Style "Latest version is always available at https://github.com/TheRemote/RaspberryPiMinecraft" "$MAGENTA"
+Print_Style "Latest version is always available at https://github.com/mistergates/RaspberryPiMinecraft" "$MAGENTA"
 Print_Style "Don't forget to set up port forwarding on your router!  The default port is 25565" "$MAGENTA"
 
 # Install dependencies needed to run minecraft in the background
