@@ -31,12 +31,6 @@ done
 # Switch to server directory
 cd dirname/minecraft/
 
-# Back up server
-if [ -d "world" ]; then 
-    echo "Backing up server (to cd minecraft/backups folder)"
-    tar --exclude='./backups' --exclude='./cache' --exclude='./logs' --exclude='./paperclip.jar' -pzvcf backups/$(date +%Y.%m.%d.%H.%M.%S).tar.gz ./*
-fi
-
 # Paper / Spigot / Bukkit Optimization settings
 # Original guide by Celebrimbor: https://www.spigotmc.org/threads/guide-server-optimization%E2%9A%A1.283181/
 
